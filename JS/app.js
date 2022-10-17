@@ -1,7 +1,5 @@
 //IIFE
-(function(){
-
-let str = '';
+let pokemonRepository = (function() {
 let pokemonList = [
     {
         name: "Bulbasaur", 
@@ -34,23 +32,47 @@ let pokemonList = [
    }
 ]
 
-// for each loop over and display pokemon with a specific height and display results in order.
-   pokemonList.forEach(pokemon);
+function getAll() {
+    return pokemonList;
+}
+function add(pokemon){
+    if( typeof pokemon === 'object' && 'name' in pokemon){
+    pokemonList.push(pokemon);
+    }
+}
 
-   function pokemon(item) {
+
+
+return{
+    add : add,
+    getAll : getAll
+}
+
+})()
+ // for each loop over and display pokemon with a specific height and display results in order.
+    let str = '';
+    pokemonRepository.getAll().forEach(pokemon);
+    function pokemon(item) {
     
     if(item.height < 4){
         document.getElementById("container").innerHTML= str += `<div> I am ${item.name}</div>`;
     } else if (item.height < 5.5) {
         document.getElementById("container").innerHTML= str += `<div> I am ${item.name}</div>`;
     } else if(item.height < 8) {
-        document.getElementById("container").innerHTML= str += `<div> I am ${item.name}</div>`;
+       document.getElementById("container").innerHTML= str += `<div> I am ${item.name}</div>`;
     } else if(item.height < 9.5) {
+        document.getElementById("container").innerHTML= str += `<div> I am ${item.name}</div>`;
+    } else if(item.height < 11){ 
         document.getElementById("container").innerHTML= str += `<div> I am ${item.name}</div>`;
     } else {
         document.getElementById("container").innerHTML= str += `<div> I am ${item.name}</div>`;
     }
   };
 
+  pokemonRepository.add ({
+    name: "Pidgeotto",
+    height: 1.1,
+    type: ["normal", "flying"],
+    });
 
-})()
+    console.table(pokemonRepository.getAll());
