@@ -35,13 +35,12 @@ let pokemonList = [
 function getAll() {
     return pokemonList;
 }
+
 function add(pokemon){
     if( typeof pokemon === 'object' && 'name' in pokemon){
-    pokemonList.push(pokemon);
+        pokemonList.push(pokemon);
     }
 }
-
-
 
 return{
     add : add,
@@ -51,7 +50,7 @@ return{
 })()
  // for each loop over and display pokemon with a specific height and display results in order.
     let str = '';
-    pokemonRepository.getAll().forEach(pokemon);
+
     function pokemon(item) {
     
     if(item.height < 4){
@@ -68,11 +67,13 @@ return{
         document.getElementById("container").innerHTML= str += `<div> I am ${item.name}</div>`;
     }
   };
-
+ //add new pokemon to pokemonList
   pokemonRepository.add ({
     name: "Pidgeotto",
     height: 1.1,
     type: ["normal", "flying"],
     });
+
+    pokemonRepository.getAll().forEach(pokemon);
 
     console.table(pokemonRepository.getAll());
