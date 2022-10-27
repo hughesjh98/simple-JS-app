@@ -1,36 +1,8 @@
 //IIFE
 let pokemonRepository = (function() {
-let pokemonList = [
-    {
-        name: "Bulbasaur", 
-        height: 2,
-        type: ["grass", "posion"]
-    },
+let pokemonList = [];
+let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
-    {
-        name: "Charizard",
-        height: 5,
-        type: ["fire", "flying"]
-    },
-
-    {
-        name: "Mewtwo",
-        height: 6,
-        type: "psychic"
-   },
-
-   {
-        name:"Golurk", 
-        height: 9, 
-        type: ["ground", "ghost"]
-   },
-
-   {
-        name: "Arceus", 
-        height: 10, 
-        type: "normal"
-   }
-]
 //get all pokemon an return pokemon 
 function getAll() {
     return pokemonList;
@@ -40,9 +12,8 @@ function getAll() {
 function add(pokemon){
     if( 
         typeof pokemon === "object" &&
-        "name" in pokemon &&
-        "type" in pokemon &&
-        "height" in pokemon 
+        "name" in pokemon 
+       
         ){
         pokemonList.push(pokemon);
     } else {
@@ -66,43 +37,59 @@ function addListItem(pokemon){
        showDetails(pokemon);
     });
 }
+// fetch and load the names and details URL 
+    function loadList(){
+        return fetch(apiUrl).then(function(response){
+            return response.json();
+        }).then(function(json){
+            json.results.forEach(function(item){
+                let pokemon = {
+                    name: item.name,
+                    detailsUrl: item.url
+                };
+                add (pokemon);
+            });
+        }).catch(function(error){
+            console.error(error);
+        });
+    }
+// fetch and load specific data from the API and console.log
+    function loadDetails(item) {
+        let url = item.detailsUrl;
+        return fetch(url).then(function(response){
+            return response.json();
+        }).then(function (details){
+            item.imgUrl = details.sprites.front_default;
+            item.height = details.height;
+            item.types = details.types;
+        }).catch(function(error){
+            console.error(error);
+        });
+    }
 
-// show details
-function showDetails(pokemon){
-console.log(pokemon);
-};
+// show details of each pokemon
+function showDetails(item){
+    pokemonRepository.loadDetails(item).then(function(){
+        console.log(item);
+    });
+}
 
 // return keys 
 return{
     add : add,
     getAll : getAll,
     addListItem:addListItem,
-    showDetails:showDetails
+    showDetails:showDetails,
+    loadList:loadList,
+    loadDetails: loadDetails
 }
 
 //end of iife
-})()
-
-//add new pokemon then push to pokemon list
-pokemonRepository.add ({
-    name: "Pidgeotto",
-    height: 1.1,
-    type: ["normal", "flying"],
-    });
-    
-pokemonRepository.add({
-    name: "crobat",
-    height: 5,
-    type: ["posion","flying"]
-    });
-pokemonRepository.add({
-    name: "Cobalion",
-    height: 6,
-    type:["stee;","fighting"]
-    });
+})();
 
 //function to loop over pokemonReopsitory and display pokemon
-pokemonRepository.getAll().forEach(function(pokemon) {
- pokemonRepository.addListItem(pokemon);
+pokemonRepository.loadList().then(function() {
+   pokemonRepository.getAll().forEach(function(pokemon) {
+     pokemonRepository.addListItem(pokemon);
     });
-
+});
