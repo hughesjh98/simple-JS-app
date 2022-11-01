@@ -31,12 +31,16 @@ function addListItem(pokemon){
     listPokemon.classList.add("list-items");
     listPokemon.appendChild(button);
     pokemonList.appendChild(listPokemon);
+    eventListener(button,pokemon);
+    }
 
-    //click event to console.log pokemon details 
-   button.addEventListener('click', function(){ 
-       showDetails(pokemon);
+    // when the button is click, it will console.log the details.
+    function eventListener(button, pokemon) {
+        button.addEventListener('click', function(){ 
+        showDetails(pokemon);
     });
-}
+}; 
+
 // fetch and load the names and details URL 
     function loadList(){
         return fetch(apiUrl).then(function(response){
@@ -84,7 +88,7 @@ return{
     loadDetails: loadDetails
 }
 
-//end of iife
+//end of IIFE
 })();
 
 //function to loop over pokemonReopsitory and display pokemon
