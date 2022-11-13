@@ -23,6 +23,7 @@ function add(pokemon){
 //append pokemon into the ul
 function addListItem(pokemon){
     let pokemonList = document.querySelector(".pokemon-list");
+
     let listPokemon = document.createElement("li");
     let button = document.createElement("button");
     button.innerText = pokemon.name;
@@ -92,7 +93,7 @@ function addListItem(pokemon){
       
       let typeContentElement = $('<p>' + 'type : ' + pokemon.types + '</p>');
 
-      let weightContentElement = $('<p>' + 'weight : ' + pokemon.weight + '</p>');
+      let weightContentElement = $('<p>' + 'weight : ' + pokemon.weight + " kg " + '</p>');
 
       let heightContentElement = $('<p>' + 'height : ' + pokemon.height + '</p>');
 
