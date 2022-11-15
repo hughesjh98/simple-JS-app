@@ -20,28 +20,35 @@ function add(pokemon){
     }
 }
 
-//append pokemon into the ul
+//append pokemon into a div
 function addListItem(pokemon){
-    let pokemonList = document.querySelector(".pokemon-list");
+    pokemonRepository.loadDetails(pokemon).then(function () {
+        const row = $(".row");
+        const card = $('<div class="card text-center mx-auto m-3 bg-light list-group-item-action" style="width:300px"  data-toggle="modal" data-target="#modal"></div>');
+        const cardImage = $('<img class="card-img-top mx-auto" alt="Card image" style="width:30%" />');
+        cardImage.attr("src", pokemon.imgUrl);
+        const cardBody = $('<div class="card-body"></div>');
+        const cardTitle = $("<h5 class='card-title'>" + pokemon.name + "</h5>");
+        const detailsButton = $('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">details</button>'
+        );
+  
+        row.append(card);
+        //append image to the card
+        card.append(cardImage);
+        card.append(cardBody);
+        cardBody.append(cardTitle);
+        cardBody.append(detailsButton);
+  
+        detailsButton.on("click", () => {
+                showDetails(pokemon);
+            });
+            card.on("click", () => {
+                showDetails(pokemon);
+            })
+      });
 
-    let listPokemon = document.createElement("li");
-    let button = document.createElement("button");
-    button.innerText = pokemon.name;
-    button.classList.add("button-class");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', '#pokemon-modal');
-    button.classList.add('col');
-    listPokemon.classList.add("list-items");
-    listPokemon.appendChild(button);
-    pokemonList.appendChild(listPokemon);
-    eventListener(button,pokemon);
 }
-    // when the button is click, it will fire showDetails 
-    function eventListener(button, pokemon) {
-        button.addEventListener('click', function(){ 
-        showDetails(pokemon);
-    });
-}; 
+
 
 // fetch and load the names and details URL 
     function loadList(){
@@ -104,6 +111,26 @@ function addListItem(pokemon){
      modalBody.append(weightContentElement);
      modalBody.append(heightContentElement);
     }
+
+    let searchBar = ".search-bar";
+   
+    //add even listener for after any keypress
+    $(".search-bar").keyup((e) => {
+      let pokemonCard = $(".card");
+      let searchString = e.target.value.toLowerCase();
+      //if searchString is A -> a
+      //if searchString is a -> a
+      let filteredPokemonList = pokemonList.filter((pokemon) => {
+        return pokemon.name.toLowerCase().includes(searchString);
+      });
+      // remove all pokemon cards from the document
+      $(".card").remove();
+      //Re-append only the filteredPokemonList
+      filteredPokemonList.forEach(function (pokemon) {
+        addListItem(pokemon);
+      });
+    });
+  
 
 
 // show details of each pokemon
