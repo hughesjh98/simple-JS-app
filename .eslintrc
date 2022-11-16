@@ -4,9 +4,22 @@
         "browser": true
     },
     "extends": [
-        "eslint:recommended"
+        "eslint:recommended",
+        "prettier"
     ],
     "rules": {
-        "quotes": ["error", "single"]
-    }
+        "quotes": [2,"error", "single"]
+    },
+
+    "prettier/prettier":[
+        "error",
+        {
+            "trailingComma": "es6",
+            "singleQuote": true,
+            "printWidth": 120
+        }
+    ]
+
+
+
 }
