@@ -1,11 +1,11 @@
-# simple-JS-app
+# pokedex-app
  tech used:
  -html
  -bootstrap
  -jquery
  -css
  
- main goal:
+ # main goal:
  fetch data from the pokemon API and display the data through AJAX.
  manipulate the DOM to upload a list of pokemon with their details.
  display a modal using bootstrap. 
