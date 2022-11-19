@@ -112,26 +112,31 @@ function addListItem(pokemon){
      modalBody.append(heightContentElement);
     }
 
-    let searchBar = ".search-bar";
-   
+    let searchBar = $(".search-bar");
+    const alert = alert("please enter a character");
     //add even listener for after any keypress
-    $(".search-bar").keyup((e) => {
-      let pokemonCard = $(".card");
-      let searchString = e.target.value.toLowerCase();
-      //if searchString is A -> a
-      //if searchString is a -> a
-      let filteredPokemonList = pokemonList.filter((pokemon) => {
+    searchBar.keyup((e) => {
+      const pokemonCard = $(".card");
+      const searchString = e.target.value.toLowerCase();
+      const letters =  /^[A-Za-z]+$/;
+      const filteredPokemonList = pokemonList.filter((pokemon) => {
         return pokemon.name.toLowerCase().includes(searchString);
       });
+
+      if (searchString.match(letters)){
+        return filteredPokemonList;
+      } else {
+        console.log(alert);
+      };
+
       // remove all pokemon cards from the document
       $(".card").remove();
+
       //Re-append only the filteredPokemonList
       filteredPokemonList.forEach(function (pokemon) {
         addListItem(pokemon);
       });
     });
-  
-
 
 // show details of each pokemon
 function showDetails(pokemon){
