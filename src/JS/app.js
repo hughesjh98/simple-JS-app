@@ -125,8 +125,6 @@ function addListItem(pokemon){
 
       if (searchString.match(letters)){
         return filteredPokemonList;
-      } else {
-        console.log(alert);
       };
 
       // remove all pokemon cards from the document
