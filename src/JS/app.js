@@ -69,9 +69,14 @@ function addListItem(pokemon){
 // fetch and load specific data from the API and console.log
     function loadDetails(item) {
         let url = item.detailsUrl;
+        //check if api has been loaded
+        if (item.details){
+            return Promise.resolve(item);
+        };
         return fetch(url).then(function(response){
             return response.json();
-        }).then(function (details){
+        }).then(function(details){
+            item.details = details;
             item.imgUrl = details.sprites.front_default;
             item.imgUrlBack = details.sprites.back_default;
             item.height = details.height;
@@ -91,7 +96,7 @@ function addListItem(pokemon){
         modalTitle.empty();
         modalBody.empty();
       
-      let titleElement = $('<h1>' + pokemon.name + '</h1>');
+      let titleElement = $('<h1>' + pokemon.name + '</h1>'); 
 
       let imageElement = $('<img class="modal-img" style="width:50%">');
       imageElement.attr('src', pokemon.imgUrl);
@@ -113,19 +118,15 @@ function addListItem(pokemon){
     }
 
     let searchBar = $(".search-bar");
-    const alert = alert("please enter a character");
     //add even listener for after any keypress
     searchBar.keyup((e) => {
-      const pokemonCard = $(".card");
       const searchString = e.target.value.toLowerCase();
-      const letters =  /^[A-Za-z]+$/;
+      const letters =  /^[A-Za-z\s]*$/;
       const filteredPokemonList = pokemonList.filter((pokemon) => {
+        if(searchString.match(letters)){
         return pokemon.name.toLowerCase().includes(searchString);
-      });
-
-      if (searchString.match(letters)){
-        return filteredPokemonList;
-      };
+        }
+    });
 
       // remove all pokemon cards from the document
       $(".card").remove();
