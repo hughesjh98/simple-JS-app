@@ -69,10 +69,10 @@ function addListItem(pokemon){
 // fetch and load specific data from the API and console.log
     function loadDetails(item) {
         let url = item.detailsUrl;
-        //check if api has been loaded
+        // check if api has been loaded
         if (item.details){
             return Promise.resolve(item);
-        };
+        }; 
         return fetch(url).then(function(response){
             return response.json();
         }).then(function(details){
@@ -122,6 +122,10 @@ function addListItem(pokemon){
     searchBar.keyup((e) => {
       const searchString = e.target.value.toLowerCase();
       const letters =  /^[A-Za-z\s]*$/;
+      const sanitizedSearchString = searchString.match(letters);
+
+      if(!sanitizedSearchString) return;
+
       const filteredPokemonList = pokemonList.filter((pokemon) => {
         if(searchString.match(letters)){
         return pokemon.name.toLowerCase().includes(searchString);
